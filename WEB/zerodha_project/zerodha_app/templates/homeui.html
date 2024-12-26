@@ -1,0 +1,167 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zerodha</title>
+    <link rel="stylesheet" href="{% static 'homeui.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="leftNav">
+            <p id="Nifty">NIFTY 50 <data id="n50-points">{{nifty|floatformat:4 }}  &nbsp;<data class="diff">{{ nifty_diff|floatformat:2 }}</data></data></p>
+            <p id="SenSex">SENSEX <data id="sen-points">{{sensex |floatformat:4 }}  &nbsp;<data class="diff">{{ sensex_diff|floatformat:2 }}</data></data></p>
+            <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 60" width="20" height="20">
+                <defs>
+                    <style>.cls-1{fill:#f6461a !important;}.cls-2{fill:#db342c !important;}</style>
+                </defs>
+                <title>Kite logo trimmed</title>
+                <polygon class="cls-1" points="30 0 0 30 30 60 60 30 90 0 30 0"/>
+                <polygon class="cls-2" points="30 60 60 30 90 60 30 60"/>
+            </svg>
+            
+        </div>
+        <div class="rightNav raleway-action">
+            <ul class="Actions-rightNav">
+                <li class="Active Navpage"><a href="">Dashboard</a></li>
+                <li class="Navpage" ><a href="">Orders</a></li>
+                <li class="Navpage" ><a href="">Holdings</a></li>
+                <li class="Navpage" ><a href="">Positions</a></li>
+                <li class="Navpage" ><a href="">Bids</a></li>
+                <li class="Navpage" ><a href="">Funds</a></li>
+                <li class="Navpage" ><a href=""><i class="fa-regular fa-bell"></i></a></li>
+                <li class="Navpage" ><i class="fa-solid fa-user"></i><a href="">Account</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="dashContent">
+    <section class="stocks">
+        <ul class="stock-list">
+            <li class="Bullish">
+                <a href="">AAPL</a>
+                <p>price</p>
+            </li>
+            <li>
+                <a href="">AMZN</a>
+                <p>price</p>
+            </li>
+            <li class="Bearish">
+                <a href="">RELI</a>
+                <p>price</p>
+            </li>
+            <li>
+                <a href="">TAMO</a>
+                <p>price</p>
+            </li>
+            <li>
+                <a href="">ITC</a>
+                <p>price</p>
+            </li>
+            <li>
+                <a href="">ZOMT</a>
+                <p>price</p>
+            </li>
+            <li>
+                <a href="">TSLA</a>
+                <p>price</p>
+            </li>
+            <li>
+                <a href="">META</a>
+                <p>price</p>
+            </li>
+            <li>
+                <a href="">MSFT</a>
+                <p>price</p>
+            </li>
+            <li>
+                <a href="">GOOG</a>
+                <p>price</p>
+            </li>
+        </ul>
+    </section>
+    <main>
+        <section class="graphAttrs">
+            <input type="text" value="{{ stockSymbol }}" style="text-align: center;">
+            <select name="graph-type" id="">
+                <option value="candle">candle</option>
+                <option value="renko">renko</option>
+                <option value="bar">bar</option>
+                <option value="line">line</option>
+            </select>            
+            <select name="duration" id="">
+                <!-- ['1d', '5d', '1mo', '3mo', '6mo', '1y', '2y', '5y', '10y', 'ytd', 'max'] -->
+                <option value="1d">1d</option>
+                <option value="5d">5d</option>
+                <option value="1mo">1mo</option>
+                <option value="3mo">3mo</option>
+                <option value="6mo">6mo</option>
+                <option value="1y">1y</option>
+                <option value="2y">2y</option>
+                <option value="5y">5y</option>
+            </select>            
+            <select name="graph-type" id="">
+                <option value="candle">studies</option>
+                <option value="renko">renko</option>
+                <option value="bar">bar</option>
+                <option value="line">line</option>
+            </select>            
+        </section>
+        <div id="stockGraph">
+        </div>
+    </main>
+    </div>
+    <script src="https://kit.fontawesome.com/2736a647ec.js" crossorigin="anonymous"></script>
+    <script>
+        document.querySelectorAll('.Navpage').forEach((item)=>{
+            item.addEventListener('click',function (event){
+                event.preventDefault()
+                document.querySelectorAll('.Navpage').forEach((elem)=>{
+                    elem.classList.remove('Active');
+                })
+                this.classList.add('Active');
+            });
+        });
+
+
+    fetch("/stock-graph/")
+    .then(response => response.json())
+    .then(data => {
+
+    if (data && data.data && data.data.length > 0) {
+        
+        const closeValues = data.data[0].close.flat();
+        const highValues = data.data[0].high.flat();
+        const lowValues = data.data[0].low.flat();
+        const openValues = data.data[0].open.flat();
+        const dates = data.data[0].x;
+
+        const trace1 = {
+          x: dates,
+          close: closeValues,
+          high: highValues,
+          low: lowValues,
+          open: openValues,
+          type: 'candlestick',
+          increasing: { line: { color: 'green' } },
+          decreasing: { line: { color: 'red' } }
+        };
+
+        const layout = {
+          title: 'Stock Price Candlestick Chart',
+          xaxis: { title:''},
+          yaxis: { title: 'Price' }
+        };
+
+        Plotly.newPlot('stockGraph', [trace1], layout,{height: window.innerHeight * 0.6});
+    } else {
+        console.error("Data format issue: 'data' property is missing or empty");
+    }
+  })
+  .catch(error => console.error('Error fetching stock data:', error));
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+/* FONTS */
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+.raleway-action {
+    font-family: "Raleway", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size:small;
+}
+
+
+/* BODY */
+body{
+    overflow-x:hidden ;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+nav{
+    padding: 0.6rem 1.5rem 0.6rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    border-bottom:1px solid #45403f2b;
+}
+
+.leftNav{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    display: flex;
+    width: 32%;
+    justify-content: space-between;
+    font-size:small;
+    font-weight:500;
+    color: rgb(75, 72, 72);
+}
+
+
+#n50-points, #sen-points{
+    color: #f47b53;
+}
+
+.diff{
+    color: rgb(93, 87, 87);
+    font-weight: 400;
+}
+
+/* Logo */
+#Layer_1{
+    filter: none; /* Disable any unwanted filter effects */
+}
+
+.rightNav{
+    width: 40%;
+}
+
+.Actions-rightNav{
+    display: flex;
+    justify-content: space-between;
+}
+
+.Navpage{
+    list-style: none;
+}
+
+.Navpage>a{
+    position: relative;
+}
+
+.Actions-rightNav>li>a{
+    text-decoration: none;
+    color: black;
+}
+
+
+/* DashBoard Content */
+
+.dashContent{
+    display: flex;
+    width: 100%;
+    margin: 0 2rem 2rem 0;
+    justify-content: space-evenly;
+}
+.stocks{
+    width: 28%;
+}
+
+.stock-list{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    font-weight:300;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.stock-list>li{
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem;
+    border-top:0.5px solid #45403f2b;
+    border-right:0.5px solid #45403f2b;
+}
+
+.stock-list>li:last-child{
+    border-bottom:0.5px solid #45403f2b;
+}
+
+.stock-list>li>a{
+    text-decoration: none;
+}
+
+main{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+main>section>select{
+    width: 5rem;
+}
+
+.graphAttrs{
+    padding: .5rem;
+    width: 100%;
+    border-bottom:1px solid #45403f2b;
+}
+
+#stockGraph {
+    height: 82vh;  /* Set height to 90% of the viewport height */
+    width: 100%;
+}
+
+/* ACTIVE PAGE */
+.Actions-rightNav>li.Active>a {
+    color: #ff6939;
+    font-weight: 600;
+}
+
+/* STOCK COLOR */
+.Bullish>a,.Bullish>p{
+    color: green;
+}
+
+.Bullish>p::before{
+    font-family: 'Material Symbols Outlined'; /* Specify the font */
+    content: '\00a0 stat_2';
+    vertical-align: middle; 
+}
+
+
+.Bearish>a,.Bearish>p{
+    color: red;
+}
+
+.Bearish>p::before{
+    font-family: 'Material Symbols Outlined'; /* Specify the font family */
+    content: '\00a0 stat_minus_2';
+    vertical-align: middle;  
+}
+
+
+/* Animations */
+
+.Navpage>a::before{
+    content : '';
+    display:block;
+    position:absolute;
+    left:0;
+    right: 0;
+    bottom: 0;
+    top:13px;
+    background-color: #f47a51c3;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    z-index: -1;
+    transform-origin: left;
+}
+
+.Navpage>a:hover::before{
+    transform: scaleX(1);
+    transform-origin: left;
+}
